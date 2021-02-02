@@ -120,6 +120,7 @@ export namespace MoneymadeConnect {
   export interface FinishOauthPayload {
     userId: string;
     requestSignature: string;
+    accountsData: any[];
     connectPayload: ConnectPayload;
     accessToken: string;
   }
