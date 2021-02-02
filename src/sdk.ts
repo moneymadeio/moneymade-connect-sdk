@@ -52,7 +52,7 @@ export class MoneymadeConnect {
       if (!signature) {
         return res
           .status(400)
-          .send({ message: 'Body must contain payload field!' });
+          .send({ message: 'Body must contain signature field!' });
       }
 
       if (signature !== this.makeSignature(payload)) {
