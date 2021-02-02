@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest --detectOpenHandles --silent=false",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm test && npm run build && npm version patch && npm publish"
   },
   "keywords": [],
   "author": "",
