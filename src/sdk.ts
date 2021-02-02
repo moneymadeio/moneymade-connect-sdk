@@ -89,12 +89,7 @@ export class MoneymadeConnect {
         },
       },
     )
-    .then(res => res.json())
-    .then(res => {
-      if (res.status === 200) {
-
-      }
-    })
+    .then(res => res.json());
   }
 }
 
