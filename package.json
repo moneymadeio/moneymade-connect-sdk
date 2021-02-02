@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --detectOpenHandles --silent=false",
     "build": "tsc",
-    "upload": "npm test && npm run build && npm version patch && npm publish"
+    "upload": "npm test && npm run build && npm version patch && npm publish --access public"
   },
   "keywords": [],
   "author": "",
