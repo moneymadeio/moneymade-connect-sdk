@@ -1,5 +1,5 @@
 {
-  "name": "@moneymade/connect-sdk",
+  "name": "@moneymade/connect",
   "version": "0.0.2",
   "description": "Helpers, middlewares and tools to handle moneymade oauth",
   "main": "dist/index.js",
