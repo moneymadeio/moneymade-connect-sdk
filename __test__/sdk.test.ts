@@ -66,6 +66,17 @@ describe('makeBodySignature', () => {
   });
 });
 
+describe('objectToBase64 should return', () => {
+  it(`correct base64 coded string`, () => {
+    expect(sdk.objectToBase64(body)).toStrictEqual(payload);
+  });
+});
+
+describe('base64ToObject should return', () => {
+  it(`correct object decoded from base64`, () => {
+    expect(sdk.base64ToObject(payload)).toStrictEqual(body);
+  });
+});
 
 describe('expressMiddleware should return', () => {
   it(`message="Body must contain payload field!" if missed payload`, async () => {
@@ -103,7 +114,6 @@ describe('expressMiddleware should return', () => {
       expect(1).toBe(1);
     });
   });
-
 });
 
 

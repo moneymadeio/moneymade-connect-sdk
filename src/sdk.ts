@@ -19,7 +19,7 @@ export class MoneymadeConnect {
   }
 
   base64ToObject(base64: string) {
-    return JSON.stringify(
+    return JSON.parse(
       Buffer
         .from(base64, 'base64')
         .toString('ascii'),
@@ -88,7 +88,13 @@ export class MoneymadeConnect {
           'request-signature': requestSignature,
         },
       },
-    );
+    )
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 200) {
+
+      }
+    })
   }
 }
 
