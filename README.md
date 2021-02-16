@@ -11,7 +11,7 @@ This package contains helpers, tools and middlewares, which should be useful for
 
 See examples folder for a complete example
 
-#####SDK initialization
+##### SDK initialization
 
     import { MoneymadeConnect } from '@moneymade/connect';
 
