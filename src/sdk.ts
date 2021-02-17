@@ -41,7 +41,7 @@ export class MoneymadeConnect {
 
   expressMiddleware() {
     return async (req, res, next) => {
-      const { payload, signature } = req.body;
+      const { payload, signature: oauthSignature } = req.body;
 
       if (!payload) {
         return res
@@ -49,43 +49,42 @@ export class MoneymadeConnect {
           .send({ message: 'Body must contain payload field!' });
       }
 
-      if (!signature) {
+      if (!oauthSignature) {
         return res
           .status(400)
           .send({ message: 'Body must contain signature field!' });
       }
 
-      if (signature !== this.makeSignature(payload)) {
+      if (oauthSignature !== this.makeSignature(payload)) {
         return res
           .status(400)
           .send({ message: 'Signature not valid' });
       }
       
-      req.body = { signature, payload: this.base64ToObject(payload) };
+      req.body = { oauthSignature, payload: this.base64ToObject(payload) };
     
       return next();
     };
   }
 
   async finishOauth(data: MoneymadeConnect.FinishOauthPayload) {
-    const { requestSignature, connectPayload, ...payload } = data;
+    const { oauthSignature, oauthPayload, ...payload } = data;
     const { publicKey } = this.config;
-    const { moneymadeAuthUrl } = connectPayload;
-    const body = {
-      payload: this.objectToBase64(payload),
-    } as MoneymadeConnect.FinishOauthBody;
-
-    body.signature = this.makeSignature(body.payload)
+    const { moneymadeAuthUrl } = oauthPayload;
+    
+    const base64Body = this.objectToBase64(payload);
+    const signature = this.makeSignature(base64Body);
 
     return fetch(
       moneymadeAuthUrl,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
         headers: {
           'Content-Type': 'application/json',
-          'platform-api-key': publicKey,
-          'request-signature': requestSignature,
+          'api-key': publicKey,
+          'request-signature': signature,
+          'oauth-signature': oauthSignature,
         },
       },
     )
@@ -99,12 +98,10 @@ export namespace MoneymadeConnect {
     privateKey: string;
   }
 
-  export interface ConnectPayload {
+  export interface OauthPayload {
     userId: string;
     timestamp: string;
     moneymadeAuthUrl: string;
-    onSuccessRedirectUrl: string;
-    onFailureRedirectUrl: string;
   }
 
   export interface FinishOauthBody {
@@ -114,8 +111,8 @@ export namespace MoneymadeConnect {
 
   export interface FinishOauthPayload {
     userId: string;
-    requestSignature: string;
-    connectPayload: ConnectPayload;
+    oauthSignature: string;
+    oauthPayload: OauthPayload;
     accessToken: string;
   }
 }
