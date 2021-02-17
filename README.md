@@ -20,7 +20,7 @@ See examples folder for a complete example
       publicKey: 'MONEYMADE_PRIVATE_KEY',
     });
 
-#####Using as express middleware
+##### Using as express middleware
 
     app.post(
       '/oauth',
@@ -30,4 +30,15 @@ See examples folder for a complete example
         sent to moneymade server endpoint
       },
     );
+
+#### Finishing oauth via sdk method
+
+To finish oauth, you must send request to moneymade.io API. 
+
+     await moneymade.finishOauth({
+        accessToken, // access token for user
+        userId, // moneymade userId, received in oauth payload
+        oauthSignature, // oauth signature, received from moneymade in query string
+        oauthPayload, // payload, received from moneymade in query string
+      });
 
