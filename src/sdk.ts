@@ -41,7 +41,7 @@ export class MoneymadeConnect {
 
   expressMiddleware() {
     return async (req, res, next) => {
-      const { payload, signature: oauthSignature } = req.body;
+      const { payload, oauthSignature } = req.body;
 
       if (!payload) {
         return res
@@ -52,13 +52,13 @@ export class MoneymadeConnect {
       if (!oauthSignature) {
         return res
           .status(400)
-          .send({ message: 'Body must contain signature field!' });
+          .send({ message: 'Body must contain oauthSignature field!' });
       }
 
       if (oauthSignature !== this.makeSignature(payload)) {
         return res
           .status(400)
-          .send({ message: 'Signature not valid' });
+          .send({ message: 'OauthSignature not valid' });
       }
       
       req.body = { oauthSignature, payload: this.base64ToObject(payload) };

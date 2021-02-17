@@ -4,7 +4,7 @@ const publicKey = 'publicKey';
 const privateKey = 'privateKey';
 const payload = 'eyJ1c2VySWQiOiJzb21lIGlkIn0=';
 const body = { userId: 'some id' };
-const signature = '996d7f8c4c038ba65898196c7b6b68315ec0374d0d561ac07f6f9221716eacb6';
+const oauthSignature = '996d7f8c4c038ba65898196c7b6b68315ec0374d0d561ac07f6f9221716eacb6';
 
 const sdk = new MoneymadeConnect({ publicKey, privateKey });
 
@@ -55,14 +55,14 @@ describe(`makeSignature`, () => {
   it('should generate correct signature', () => {
     const sdk = new MoneymadeConnect({ publicKey, privateKey });
 
-    expect(sdk.makeSignature(payload)).toStrictEqual(signature);
+    expect(sdk.makeSignature(payload)).toStrictEqual(oauthSignature);
   });
 });
 
 describe('makeBodySignature', () => {
   it('should generate correct signature', () => {
 
-    expect(sdk.makeBodySignature(body)).toStrictEqual(signature);
+    expect(sdk.makeBodySignature(body)).toStrictEqual(oauthSignature);
   });
 });
 
@@ -88,26 +88,26 @@ describe('expressMiddleware should return', () => {
     await sdk.expressMiddleware()(req, res, null);
   });
 
-  it(`message="Body must contain signature field!" if missed payload`, async () => {
+  it(`message="Body must contain oauthSignature field!" if missed payload`, async () => {
     const req = mockReq({ payload: 'payload' });
     const res = mockRes().addExpect(response => {
-      expect(response).toStrictEqual({ message: 'Body must contain signature field!' });
+      expect(response).toStrictEqual({ message: 'Body must contain oauthSignature field!' });
     });
 
     await sdk.expressMiddleware()(req, res, null);
   });
 
-  it(`message="Signature not valid" with wrong payload and signature`, async () => {
-    const req = mockReq({ payload: 'payload', signature: 'signature' });
+  it(`message="OauthSignature not valid" with wrong payload and signature`, async () => {
+    const req = mockReq({ payload: 'payload', oauthSignature: 'signature' });
     const res = mockRes().addExpect(response => {
-      expect(response).toStrictEqual({ message: 'Signature not valid' });
+      expect(response).toStrictEqual({ message: 'OauthSignature not valid' });
     });
 
     await sdk.expressMiddleware()(req, res, null);
   });
 
-  it(`Call next() if signature validation passed`, async () => {
-    const req = mockReq({ payload, signature });
+  it(`call next() if signature validation passed`, async () => {
+    const req = mockReq({ payload, oauthSignature });
     const res = mockRes().addExpect(() => expect(1).toBe(2));
 
     await sdk.expressMiddleware()(req, res, () => {
