@@ -26,7 +26,7 @@ We reccomend to read payload and signature from oauth url and send it to your ba
 Don't do it at the frontend side, because private key shouldn't be shared. 
 
 You may use expressMiddleware method of nodejs moneymade connect sdk to validate signature in POST query body.
-(See examples folder for a complete example).
+(See examples [repository](https://github.com/moneymadeio/moneymade-connect-nodejs-demo) for a complete example).
 
 If signature was validated as correct, then you need to generate user accessToken and send it to moneymade server via http request.
 
@@ -45,19 +45,6 @@ To achieve this follow these points:
 Request body should be JSON contains following fields:
 | Field  | Description |
 | ------------- | ------------- |
-| payload  | base64 encoded JSON string. (JSON fields see below)  |
-| signature  | Request hmac (Generated via algorithm explained from above) |
-
-Sample:
-
-    {
-        "signature": "request hmac",
-        "payload": "base64 encoded JSON string"
-    }
-
-#### Request payload JSON fields
-| Field  | Description |
-| ------------- | ------------- |
 | userId  | userId read from payload received from moneymade side (query string) |
 | accessToken  |accessToken with access rights to read user balances and transactions |
 
@@ -70,8 +57,9 @@ Sample:
 #### Request headers
 | Header  | Description |
 | ------------- | ------------- |
-| platform-api-key | Public key received from moneymade devs |
+| api-key | Public key received from moneymade devs |
 | request-signature  | Request signature received from moneymade side (signature from query string parameter) |
+|oauth-signature|Oauth signature received from moneymade (read from query string)|
 
 
 
