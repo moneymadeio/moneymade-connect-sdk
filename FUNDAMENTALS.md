@@ -62,5 +62,15 @@ Sample:
 |oauth-signature|Oauth signature received from moneymade (read from query string)|
 
 
+### Close oauth popup
 
+Dashboard moneymade.io opens your platform oauth page in popup.
+You should send following messages to main window for closing the popup:
+
+If oauth authorization was sucessull:
+    `window.parent.postMessage({ status: 'OK' }, '*');`
+
+
+If oauth authorization was failed:
+    `window.parent.postMessage({ status: 'FAILED' }, '*');`
 
