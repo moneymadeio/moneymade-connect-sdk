@@ -5,7 +5,7 @@ Moneymade server redirects user to your platform website with two query string p
 - payload - base64 encoded string, which contains main info (userId, redirect urls) 
 - signature - request hmac
 
-Exmaple: 
+Example: 
 
 https://domain/oauth?payload={PAYLOAD}&signature={SIGNATURE}
 
