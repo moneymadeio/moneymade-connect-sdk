@@ -64,13 +64,20 @@ Sample:
 
 ### Close oauth popup
 
-Dashboard moneymade.io opens your platform oauth page in popup.
-You should send following messages to main window for closing the popup:
+Dashboard moneymade.io opens your platform oauth page in popup or iframe.
+You should send following messages to main window for closing the popup or iframe:
+
+##### For iframe:
 
 If oauth authorization was sucessull:
     `window.parent.postMessage({ status: 'OK' }, '*');`
 
-
 If oauth authorization was failed:
     `window.parent.postMessage({ status: 'FAILED' }, '*');`
 
+##### For popup:
+If oauth authorization was sucessull:
+    `window.opener.postMessage({ status: 'OK' }, '*');`
+
+If oauth authorization was failed:
+    `window.opener.postMessage({ status: 'FAILED' }, '*');`
